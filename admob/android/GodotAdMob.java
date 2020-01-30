@@ -118,13 +118,7 @@ public class GodotAdMob extends Godot.SingletonBase {
 	}
 
 	public GodotAdMob(Activity p_activity) {
-		registerClass("AdMob", new String[] { "init", "initWithContentRating",
-				// banner
-				"loadBanner", "showBanner", "hideBanner", "getBannerWidth", "getBannerHeight", "resize",
-				// Interstitial
-				"loadInterstitial", "showInterstitial",
-				// Rewarded video
-				"loadRewardedVideo", "showRewardedVideo" });
+		registerClass("AdMob", new String[] { "init", "loadRewardedVideo", "showRewardedVideo" });
 		this.activity = p_activity;
 		this.context = activity.getApplicationContext();
 	}

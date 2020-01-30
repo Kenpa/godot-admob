@@ -7,12 +7,26 @@
 @implementation AdmobRewarded
 
 
-- (void)initialize:(BOOL)is_real: (int)instance_id: (AdmobBanner *)admob_banner {
-    isReal = is_real;
-    initialized = true;
-    instanceId = instance_id;
-    admobBanner = admob_banner;
+- (void)initialize:(BOOL)is_real: (int)instance_id {
     rootController = [AppDelegate getViewController];
+}
+
+- (GADRewardedAd *)createAndLoadRewardedAd {
+  GADRewardedAd *rewardedAd = [[GADRewardedAd alloc]
+      initWithAdUnitID:@"ca-app-pub-3940256099942544/1712485313"];
+  GADRequest *request = [GADRequest request];
+  [rewardedAd loadRequest:request completionHandler:^(GADRequestError * _Nullable error) {
+    if (error) {
+      // Handle ad failed to load case.
+    } else {
+      // Ad successfully loaded.
+    }
+  }];
+  return rewardedAd;
+}
+
+- (void)rewardedAdDidDismiss:(GADRewardedAd *)rewardedAd {
+  self.rewardedAd = [self createAndLoadRewardedAd];
 }
 
 - (void) loadRewardedVideo:(NSString*) rewardedId {
