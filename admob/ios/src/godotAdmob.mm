@@ -1,5 +1,5 @@
-#include "godotAdmob.h"
 #import <GoogleMobileAds/GADMobileAds.h>
+#import "godotAdmob.h"
 #import "app_delegate.h"
 
 GodotAdmob::GodotAdmob() {
@@ -9,10 +9,8 @@ GodotAdmob::~GodotAdmob() {
 }
 
 void GodotAdmob::init(bool isReal, int instanceId) {
-    isReal = is_real;
-    instanceId = instance_id;
-
-    rewarded = [AdmobRewarded alloc];
+    rewarded = [[AdmobRewarded alloc] init];
+    [rewarded initialize: isReal: instanceId]
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
 }
 

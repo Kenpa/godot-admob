@@ -1,15 +1,15 @@
 #ifndef GODOT_ADMOB_H
 #define GODOT_ADMOB_H
 
-#include <version_generated.gen.h>
+#import <version_generated.gen.h>
 
-#include "reference.h"
+#import "reference.h"
 
 #ifdef __OBJC__
 @class AdmobRewarded;
-typedef AdmobRewarded *rewardedPtr;
+typedef AdmobRewarded *AdmobRewardedPtr;
 #else
-typedef void *rewardedPtr;
+typedef void *AdmobRewardedPtr;
 #endif
 
 class GodotAdmob : public Reference
@@ -20,7 +20,7 @@ class GodotAdmob : public Reference
     bool isReal;
     int instanceId;
 
-    rewardedPtr rewarded;
+    AdmobRewardedPtr rewarded;
 
 protected:
     static void _bind_methods();

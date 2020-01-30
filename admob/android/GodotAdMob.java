@@ -33,6 +33,7 @@ public class GodotAdMob extends Godot.SingletonBase {
 	public void init(boolean isReal, int instance_id) {
 		this.isReal = isReal;
 		this.instance_id = instance_id;
+		this.rewardedVideoAds = new HashMap<>();
 
 		MobileAds.initialize(this, new OnInitializationCompleteListener() {
 			@Override
@@ -66,9 +67,6 @@ public class GodotAdMob extends Godot.SingletonBase {
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				if (rewardedVideoAds == null) {
-					rewardedVideoAds = new HashMap<>();
-				}
 				rewardedVideoAds.put(id, createAndLoadRewardedAd(id));
 			}
 		});
