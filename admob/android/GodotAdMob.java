@@ -1,13 +1,12 @@
 package org.godotengine.godot;
 
-import com.google.android.gms.ads.*;
-
-import java.util;
+import java.util.Map;
 import java.util.HashMap;
 
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.MobileAds;
@@ -35,17 +34,17 @@ public class GodotAdMob extends Godot.SingletonBase {
 		this.instance_id = instance_id;
 		this.rewardedVideoAds = new HashMap<>();
 
-		MobileAds.initialize(this, new OnInitializationCompleteListener() {
+		MobileAds.initialize(this.activity, new OnInitializationCompleteListener() {
 			@Override
-			public void OnInitializationComplete(InitializationStatus initilizationStatus) {
+			public void onInitializationComplete(InitializationStatus initilizationStatus) {
 			}
 		});
-		Log.W(LOGTAG, "Initialized.");
+		Log.w(LOGTAG, "Initialized.");
 	}
 
 	public RewardedAd createAndLoadRewardedAd(final String id) {
-		String actualId = this.isReal ? id : "ca-app-pub-3940256099942544/5224354917";
-		RewardedAd rewardedAd = new RewardedAd(this, actualId);
+		final String actualId = this.isReal ? id : "ca-app-pub-3940256099942544/5224354917";
+		RewardedAd rewardedAd = new RewardedAd(this.activity, actualId);
 		RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
 			@Override
 			public void onRewardedAdLoaded() {
@@ -73,11 +72,12 @@ public class GodotAdMob extends Godot.SingletonBase {
 	}
 
 	public void showRewardedVideo(final String id) {
+		final boolean _isReal = this.isReal;
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				if (rewardedVideoAds.get(id) != null && rewardedVideoAds.get(id).isLoaded()) {
-					String actualId = this.isReal ? id : "ca-app-pub-3940256099942544/5224354917";
+					final String actualId = _isReal ? id : "ca-app-pub-3940256099942544/5224354917";
 					RewardedAdCallback adCallback = new RewardedAdCallback() {
 						@Override
 						public void onRewardedAdOpened() {
