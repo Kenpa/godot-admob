@@ -76,6 +76,7 @@ public class GodotAdMob extends Godot.SingletonBase {
 	}
 
 	public void showRewardedVideo(final String id) {
+		final Activity _activity = this.activity;
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -106,6 +107,7 @@ public class GodotAdMob extends Godot.SingletonBase {
 							GodotLib.calldeferred(instance_id, "_on_rewarded_ad_failed_to_show", new Object[] { id, errorCode });
 						}
 					};
+					rewardedVideoAds.get(id).show(_activity, adCallback);
 				} else {
 					Log.w(LOGTAG, "RewardedAd was not loaded yet.");
 				}
