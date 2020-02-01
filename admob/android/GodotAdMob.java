@@ -43,22 +43,26 @@ public class GodotAdMob extends Godot.SingletonBase {
 	}
 
 	public RewardedAd createAndLoadRewardedAd(final String id) {
-		final String actualId = this.isReal ? id : "ca-app-pub-3940256099942544/5224354917";
-		RewardedAd rewardedAd = new RewardedAd(this.activity, actualId);
+		RewardedAd rewardedAd = new RewardedAd(this.activity, id);
 		RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
 			@Override
 			public void onRewardedAdLoaded() {
-				Log.w(LOGTAG, "onRewardedAdLoaded: " + actualId);
+				Log.w(LOGTAG, "onRewardedAdLoaded: " + id);
 				GodotLib.calldeferred(instance_id, "_on_rewarded_ad_loaded", new Object[] { id });
 			}
 
 			@Override
 			public void onRewardedAdFailedToLoad(int errorCode) {
-				Log.w(LOGTAG, "onRewardedAdFailedToLoad: " + actualId + ". errorCode: " + errorCode);
+				Log.w(LOGTAG, "onRewardedAdFailedToLoad: " + id + ". errorCode: " + errorCode);
 				GodotLib.calldeferred(instance_id, "_on_rewarded_ad_failed_to_load", new Object[] { id, errorCode });
 			}
 		};
-		rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
+		AdRequest.Builder adReq = new AdRequest.Builder();
+		if (!this.isReal) {
+			adReq.addTestDevice("A951437A6DDDB2A43DF0EE9A04693747");
+			Log.w(LOGTAG, "Test ads request");
+		}
+		rewardedAd.loadAd(adReq.build(), adLoadCallback);
 		return rewardedAd;
 	}
 
@@ -72,35 +76,33 @@ public class GodotAdMob extends Godot.SingletonBase {
 	}
 
 	public void showRewardedVideo(final String id) {
-		final boolean _isReal = this.isReal;
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				if (rewardedVideoAds.get(id) != null && rewardedVideoAds.get(id).isLoaded()) {
-					final String actualId = _isReal ? id : "ca-app-pub-3940256099942544/5224354917";
 					RewardedAdCallback adCallback = new RewardedAdCallback() {
 						@Override
 						public void onRewardedAdOpened() {
-							Log.w(LOGTAG, "onRewardedAdOpened: " + actualId);
+							Log.w(LOGTAG, "onRewardedAdOpened: " + id);
 							GodotLib.calldeferred(instance_id, "_on_rewarded_ad_opened", new Object[] { id });
 						}
 
 						@Override
 						public void onRewardedAdClosed() {
 							rewardedVideoAds.put(id, createAndLoadRewardedAd(id));
-							Log.w(LOGTAG, "onRewardedAdClosed: " + actualId);
+							Log.w(LOGTAG, "onRewardedAdClosed: " + id);
 							GodotLib.calldeferred(instance_id, "_on_rewarded_ad_closed", new Object[] { id });
 						}
 
 						@Override
 						public void onUserEarnedReward(@NonNull RewardItem reward) {
-							Log.w(LOGTAG, "onRewarded: " + actualId);
+							Log.w(LOGTAG, "onRewarded: " + id);
 							GodotLib.calldeferred(instance_id, "_on_rewarded", new Object[] { id });
 						}
 
 						@Override
 						public void onRewardedAdFailedToShow(int errorCode) {
-							Log.w(LOGTAG, "onRewardedAdFailedToShow: " + actualId);
+							Log.w(LOGTAG, "onRewardedAdFailedToShow: " + id);
 							GodotLib.calldeferred(instance_id, "_on_rewarded_ad_failed_to_show", new Object[] { id, errorCode });
 						}
 					};
