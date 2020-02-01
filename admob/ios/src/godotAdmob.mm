@@ -9,9 +9,13 @@ GodotAdmob::~GodotAdmob() {
 }
 
 void GodotAdmob::init(bool isReal, int instanceId) {
-    rewarded = [[AdmobRewarded alloc] init];
-    [rewarded initialize: isReal: instanceId]
+    rewarded = [AdmobRewarded alloc];
+    [rewarded initialize: isReal: instanceId];
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
+    if (!isReal) {
+        NSLog(@"Test ads");
+        GADMobileAds.sharedInstance.requestConfiguration.testDeviceIdentifiers = @[ @""];
+    }
 }
 
 void GodotAdmob::loadRewardedVideo(const String &rewardedId) {
