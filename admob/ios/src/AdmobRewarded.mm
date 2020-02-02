@@ -1,5 +1,4 @@
 #import "AdmobRewarded.h"
-#import <GoogleMobileAds/GADRewardBasedVideoAd.h>
 #import <GoogleMobileAds/GADRewardedAd.h>
 #import <GoogleMobileAds/GADAdReward.h>
 #import <GoogleMobileAds/GADRequest.h>
@@ -41,7 +40,7 @@
 - (void)showRewardedVideo:(NSString*) id {
     if (self.rewardedVideoAds[id] != nil) {
         if (self.rewardedVideoAds[id].isReady) {
-            [self.rewardedVideoAds presentFromRootViewController:rootController delegate:self];
+            [self.rewardedVideoAds[id] presentFromRootViewController:rootController delegate:self];
         }
     } else {
         NSLog(@"RewardedAd was not loaded yet.");

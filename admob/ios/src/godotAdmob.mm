@@ -14,7 +14,7 @@ void GodotAdmob::init(bool isReal, int instanceId) {
     [[GADMobileAds sharedInstance] startWithCompletionHandler:nil];
     if (!isReal) {
         NSLog(@"Test ads");
-        GADMobileAds.sharedInstance.requestConfiguration.testDeviceIdentifiers = @[ @""];
+        GADMobileAds.sharedInstance.requestConfiguration.testDeviceIdentifiers = @[  @"999a4c9236ff3b78d3821dd09c5ea710" ];
     }
 }
 
